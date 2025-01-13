@@ -19,7 +19,7 @@ function App() {
       time: new Date().toISOString(),
     };
     socket.emit('sendMessage', data);
-    setRecievedData((perv) => [...perv, data]);
+    setRecievedData((prev) => [...prev, data]);
     setInput('');
   };
 
@@ -49,14 +49,23 @@ function App() {
             onChange={(e) => setInput(e.target.value)}
           />
           <button onClick={sendMessage}>send data</button>
-          <div>
-            {recievedData.map((el, i) => (
-              <div key={el.time}>
-                <h2>{el.message}</h2>
-                <h5>{el.author}</h5>
-                <h5>{el.time}</h5>
-              </div>
-            ))}
+          <div className='container'>
+            {recievedData.map((el, i) => {
+              console.log(userName, 'userName');
+              console.log(el.userName, 'el.userName');
+              return (
+                <div
+                  className={`chat ${userName === el.author ? 'moveLeft' : ''}`}
+                  key={el.time}
+                >
+                  <h2>{el.message}</h2>
+                  <div className='flex'>
+                    <h5>{el.author}</h5>
+                    <h5>{el.time}</h5>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       ) : (
